@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ApparelBox - Urban Boys</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md py-4">
+    <div class="container mx-auto flex justify-between items-center px-4">
+      <h1 class="text-2xl font-bold">ApparelBox</h1>
+      <nav class="space-x-4">
+        <a href="#" class="hover:text-blue-600">Home</a>
+        <a href="#products" class="hover:text-blue-600">Shop</a>
+        <a href="#" class="hover:text-blue-600">Contact</a>
+      </nav>
+      <a href="#login" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Login</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="h-96 bg-cover bg-center" style="background-image: url('https://source.unsplash.com/1600x900/?tshirt');">
+    <div class="h-full flex justify-center items-center bg-black bg-opacity-40">
+      <div class="text-white text-center">
+        <h2 class="text-4xl font-bold mb-4">Stylish Tees for You</h2>
+        <a href="#products" class="bg-blue-600 px-6 py-3 rounded hover:bg-blue-700">Shop Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section id="products" class="py-12 px-4">
+    <h3 class="text-2xl font-semibold mb-6">Our Products</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white shadow-md rounded p-4">
+        <img src="https://source.unsplash.com/400x400/?white,tshirt" alt="White Tee" class="w-full h-48 object-cover mb-4">
+        <h4 class="text-lg font-bold mb-2">White Tee</h4>
+        <p class="text-gray-600 mb-2">₹499</p>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded w-full hover:bg-blue-700 add-to-cart">Add to Cart</button>
+      </div>
+      <!-- More products can go here -->
+    </div>
+  </section>
+
+  <!-- Login Section -->
+  <section id="login" class="py-12 bg-white">
+    <div class="max-w-md mx-auto p-6 rounded-lg shadow-md bg-gray-50">
+      <h3 class="text-xl font-semibold mb-4">Login</h3>
+      <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" class="w-full border p-2 mb-4 rounded" required />
+        <input type="password" id="password" placeholder="Password" class="w-full border p-2 mb-4 rounded" required />
+        <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700">Login</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white text-center py-4">
+    <p>&copy; 2025 ApparelBox. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Add to cart
+    function addToCart(product) {
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const found = cart.find(item => item.id === product.id);
+      if (found) {
+        found.qty += 1;
+      } else {
+        cart.push({ ...product, qty: 1 });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(product.name + ' added to cart!');
+    }
+
+    document.querySelectorAll('button.add-to-cart').forEach((btn, index) => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('div');
+        const name = card.querySelector('h4')?.innerText;
+        const price = parseInt(card.querySelector('p')?.innerText.replace('₹','')) || 0;
+        addToCart({ id: index, name, price });
+      });
+    });
+
+    // Login
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+      if (u === 'admin' && p === '1234') {
+        alert('Login successful!');
+      } else {
+        alert('Wrong credentials.');
+      }
+    });
+  </script>
+</body>
+</html>
